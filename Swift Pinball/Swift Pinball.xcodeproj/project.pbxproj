@@ -17,6 +17,8 @@
 		963F25491EE5A5A900D31540 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 963F25471EE5A5A900D31540 /* LaunchScreen.storyboard */; };
 		963F25541EE5A5A900D31540 /* Swift_PinballTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F25531EE5A5A900D31540 /* Swift_PinballTests.swift */; };
 		963F255F1EE5A5A900D31540 /* Swift_PinballUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F255E1EE5A5A900D31540 /* Swift_PinballUITests.swift */; };
+		963F256D1EE5A73A00D31540 /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F256C1EE5A73A00D31540 /* PhysicsCategory.swift */; };
+		963F256F1EE5ADF800D31540 /* GameScene_Touches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F256E1EE5ADF800D31540 /* GameScene_Touches.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		963F255A1EE5A5A900D31540 /* Swift PinballUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift PinballUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		963F255E1EE5A5A900D31540 /* Swift_PinballUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_PinballUITests.swift; sourceTree = "<group>"; };
 		963F25601EE5A5A900D31540 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		963F256C1EE5A73A00D31540 /* PhysicsCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
+		963F256E1EE5ADF800D31540 /* GameScene_Touches.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene_Touches.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +116,8 @@
 				963F25451EE5A5A900D31540 /* Assets.xcassets */,
 				963F25471EE5A5A900D31540 /* LaunchScreen.storyboard */,
 				963F254A1EE5A5A900D31540 /* Info.plist */,
+				963F256C1EE5A73A00D31540 /* PhysicsCategory.swift */,
+				963F256E1EE5ADF800D31540 /* GameScene_Touches.swift */,
 			);
 			path = "Swift Pinball";
 			sourceTree = "<group>";
@@ -271,8 +277,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				963F253F1EE5A5A900D31540 /* GameScene.swift in Sources */,
+				963F256D1EE5A73A00D31540 /* PhysicsCategory.swift in Sources */,
 				963F25411EE5A5A900D31540 /* GameViewController.swift in Sources */,
 				963F25391EE5A5A900D31540 /* AppDelegate.swift in Sources */,
+				963F256F1EE5ADF800D31540 /* GameScene_Touches.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
