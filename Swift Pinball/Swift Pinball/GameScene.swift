@@ -21,8 +21,18 @@ class GameScene: SKScene
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
+    // Sprite nodes
+    private var ballNode : SKSpriteNode = SKSpriteNode();
+    private var ballSpawnPointNode : SKNode = SKNode();
+    
     override func sceneDidLoad()
     {
+        let skyColor = SKColor(red: 0.3, green: 0.7, blue: 0.7, alpha: 1.0)
+        backgroundColor = skyColor
+        
+        ballNode = childNode(withName: "Ball") as! SKSpriteNode;
+        ballSpawnPointNode = childNode(withName: "Ball Spawn Point")!;
+        
         self.lastUpdateTime = 0
         
         // Get label node from scene and store it for use later
@@ -48,6 +58,31 @@ class GameScene: SKScene
         }
     }
     
+    /* Update callback. */
+    override func update(_ currentTime: TimeInterval)
+    {
+        // Called before each frame is rendered
+        
+        // Initialize _lastUpdateTime if it has not already been
+        if (self.lastUpdateTime == 0)
+        {
+            self.lastUpdateTime = currentTime
+        }
+        
+        // Calculate time since last update
+        let dt = currentTime - self.lastUpdateTime
+        
+        // Update entities
+        for entity in self.entities
+        {
+            entity.update(deltaTime: dt)
+        }
+        
+        self.lastUpdateTime = currentTime
+        
+        
+        CheckIfResetBall();
+    }
     
     func touchDown(atPoint pos : CGPoint)
     {
@@ -79,44 +114,6 @@ class GameScene: SKScene
         }
     }
     
-    /*
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
-        if let label = self.label
-        {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
-        
-        for t in touches
-        {
-            self.touchDown(atPoint: t.location(in: self))
-        }
-    }
-    */
-    
-    
-    override func update(_ currentTime: TimeInterval)
-    {
-        // Called before each frame is rendered
-        
-        // Initialize _lastUpdateTime if it has not already been
-        if (self.lastUpdateTime == 0)
-        {
-            self.lastUpdateTime = currentTime
-        }
-        
-        // Calculate time since last update
-        let dt = currentTime - self.lastUpdateTime
-        
-        // Update entities
-        for entity in self.entities
-        {
-            entity.update(deltaTime: dt)
-        }
-        
-        self.lastUpdateTime = currentTime
-    }
-    
     func tappedLeft()
     {
         print("The player has touched the left side of the screen.")
@@ -125,5 +122,22 @@ class GameScene: SKScene
     func tappedRight()
     {
         print("The player has touched the right side of the screen.")
+    }
+    
+    func CheckIfResetBall()
+    {
+        let spawnPosition = ballSpawnPointNode.position;
+        let heightThreshold = (-self.size.height * 0.5) + ballNode.size.height*0.5;
+        
+        if ballNode.position.y < heightThreshold
+        {
+            print("The ball is resetting...");
+            
+            ballNode.position = spawnPosition;
+            
+            ballNode.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
+            ballNode.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 1000));
+        }
+        
     }
 }
