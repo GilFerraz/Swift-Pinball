@@ -25,11 +25,11 @@ class GameScene: SKScene
     private var ballNode : SKSpriteNode = SKSpriteNode();
     private var ballSpawnPointNode : SKNode = SKNode();
     
+    private var gameScore : GameScore = GameScore(lives: 3);
+    
     override func sceneDidLoad()
     {
-        let skyColor = SKColor(red: 0.3, green: 0.7, blue: 0.7, alpha: 1.0)
-        backgroundColor = skyColor
-        
+        // Finds scene nodes.
         ballNode = childNode(withName: "Ball") as! SKSpriteNode;
         ballSpawnPointNode = childNode(withName: "Ball Spawn Point")!;
         
@@ -126,18 +126,23 @@ class GameScene: SKScene
     
     func CheckIfResetBall()
     {
-        let spawnPosition = ballSpawnPointNode.position;
         let heightThreshold = (-self.size.height * 0.5) + ballNode.size.height*0.5;
         
         if ballNode.position.y < heightThreshold
         {
-            print("The ball is resetting...");
-            
-            ballNode.position = spawnPosition;
-            
-            ballNode.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
-            ballNode.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 1000));
+            ResetBall();
+            gameScore.TakeLife();
         }
+    }
+    
+    private func ResetBall()
+    {
+        print("The ball is resetting...");
         
+        let spawnPosition = ballSpawnPointNode.position;
+        ballNode.position = spawnPosition;
+        
+        ballNode.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
+        ballNode.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 1000));
     }
 }
