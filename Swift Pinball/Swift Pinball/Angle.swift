@@ -9,10 +9,11 @@
 import Foundation
 import SpriteKit
 
-class AngleUtility
+class Angle
 {
-    private static let RadiansToDegrees: CGFloat = 180 / CGFloat(M_PI);
-    private static let DegreesToRadians: CGFloat = CGFloat(M_PI) / 180;
+    private static let Pi: CGFloat = CGFloat(Double.pi);
+    private static let RadiansToDegrees: CGFloat = 180 / Pi;
+    private static let DegreesToRadians: CGFloat = Pi / 180;
     
     public static func ToDegrees(radians: CGFloat) -> CGFloat
     {

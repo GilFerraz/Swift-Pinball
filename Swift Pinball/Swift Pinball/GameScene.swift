@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene
+class GameScene: SKScene, SKPhysicsContactDelegate
 {
     var screenWidth : CGFloat = 0.0;
     var screenLength : CGFloat = 0.0;
@@ -21,17 +21,24 @@ class GameScene: SKScene
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
+    private var gameScore : GameScore = GameScore(lives: 3);
+    
     // Sprite nodes
     private var ballNode : SKSpriteNode = SKSpriteNode();
     private var ballSpawnPointNode : SKNode = SKNode();
     
-    private var gameScore : GameScore = GameScore(lives: 3);
+    private var leftFlipper : SKSpriteNode = SKSpriteNode();
+    private var rightFlipper : SKSpriteNode = SKSpriteNode();
     
+    //==============================================================
+    // Scene Function
+    //==============================================================
+    
+    /* Called when the Scene finished loading. */
     override func sceneDidLoad()
     {
-        // Finds scene nodes.
-        ballNode = childNode(withName: "Ball") as! SKSpriteNode;
-        ballSpawnPointNode = childNode(withName: "Ball Spawn Point")!;
+        InitializePhysicsWorld();
+        FindNodes();
         
         self.lastUpdateTime = 0
         
@@ -58,7 +65,11 @@ class GameScene: SKScene
         }
     }
     
-    /* Update callback. */
+    //==============================================================
+    // Update Function
+    //==============================================================
+    
+    /* Called every frame */
     override func update(_ currentTime: TimeInterval)
     {
         // Called before each frame is rendered
@@ -83,6 +94,100 @@ class GameScene: SKScene
         
         CheckIfResetBall();
     }
+    
+    //==============================================================
+    // Touch Functions
+    //==============================================================
+    
+    /* Called when a touch has begins. */
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        for touch in touches
+        {
+            let location = touch.location(in: self)
+            
+            if (location.x < screenWidth/2)
+            {
+                tappedLeft();
+            }
+            else
+            {
+                tappedRight();
+            }
+        }
+    }
+    
+    /* Called when a touch has moved. */
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        for touch in touches
+        {
+            self.touchMoved(toPoint: touch.location(in: self))
+        }
+    }
+    
+    /* Called when a touch has ended. */
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        for touch in touches
+        {
+            self.touchUp(atPoint: touch.location(in: self))
+        }
+    }
+    
+    /* Called when a touch has cancelled. */
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        for t in touches
+        {
+            self.touchUp(atPoint: t.location(in: self))
+        }
+    }
+    
+    //==============================================================
+    // Physics Functions
+    //==============================================================
+    
+    /* Called when a physics contact happens. */
+    func didBegin(_ contact: SKPhysicsContact)
+    {
+        
+    }
+    
+    /* Called when a physics contact ends. */
+    func didEnd(_ contact: SKPhysicsContact)
+    {
+        
+    }
+    
+    
+    //==============================================================
+    // Other Functions
+    //==============================================================
+    
+    /* Initializes the physics world. */
+    private func InitializePhysicsWorld()
+    {
+        physicsWorld.contactDelegate = self;
+    }
+    
+    /* Finds all scene nodes. */
+    private func FindNodes()
+    {
+        ballNode = childNode(withName: "Ball") as! SKSpriteNode;
+        ballSpawnPointNode = childNode(withName: "Ball Spawn Point")!;
+        
+        leftFlipper = childNode(withName: "Left Flipper") as! SKSpriteNode;
+        rightFlipper = childNode(withName: "Right Flipper") as! SKSpriteNode;
+        
+        //let cons = SKConstraint.zRotation(SKRange.init(lowerLimit: -15, upperLimit: 15));
+        //leftFlipper.constraints?.append(cons)
+    }
+    
+    
+    
+    
+    
     
     func touchDown(atPoint pos : CGPoint)
     {
@@ -113,15 +218,25 @@ class GameScene: SKScene
             self.addChild(n)
         }
     }
-    
+
     func tappedLeft()
     {
         print("The player has touched the left side of the screen.")
+        
+        let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: 45), duration: 0.01);
+        let actionReverse = SKAction.rotate(byAngle: Angle.ToRadians(degrees: -45), duration: 0.15);
+        let sequence = SKAction.sequence([action, actionReverse])
+        leftFlipper.run(sequence);
     }
     
     func tappedRight()
     {
         print("The player has touched the right side of the screen.")
+        
+        let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: -45), duration: 0.01);
+        let actionReverse = SKAction.rotate(byAngle: Angle.ToRadians(degrees: 45), duration: 0.15);
+        let sequence = SKAction.sequence([action, actionReverse])
+        rightFlipper.run(sequence);
     }
     
     func CheckIfResetBall()
