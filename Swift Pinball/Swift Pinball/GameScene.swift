@@ -162,11 +162,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     /* Called when a physics contact happens. */
     func didBegin(_ contact: SKPhysicsContact)
     {
-        if(contact.bodyA.categoryBitMask==PhysicsCategory.FlipperCategory)
+        if Collision.DidCollideBothWays(contact: contact,
+                                        categoryBitMask: PhysicsCategory.FlipperCategory)
         {
-        if (leftFlipperIsUp && contact.bodyA.node?.name=="Left Flipper") || (rightFlipperIsUp && contact.bodyA.node?.name=="Right Flipper") {
-        ballNode.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 500));
-        }
+            if (leftFlipperIsUp && contact.bodyA.node?.name=="Left Flipper") ||
+                (rightFlipperIsUp && contact.bodyA.node?.name=="Right Flipper")
+            {
+                ballNode.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 700));
+            }
         }
     }
     
