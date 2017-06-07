@@ -28,14 +28,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     private var lastUpdateTime : TimeInterval = 0;
     
     // UI
-    private var label : SKLabelNode?
+    private var scoreLabel : SKLabelNode?;
+    private var livesLable : SKLabelNode?;
     
     // Sprite nodes
-    private var ballNode : Ball = Ball();
-    private var ballSpawnPointNode : SKNode = SKNode();
+    private var ballNode : Ball?
+    private var ballSpawnPointNode : SKNode?
     
-    private var leftFlipper : Flipper = Flipper();
-    private var rightFlipper : Flipper = Flipper();
+    private var leftFlipper : Flipper?
+    private var rightFlipper : Flipper?;
     
     // Score
     private var gameScore : GameScore = GameScore(lives: 3);
@@ -56,12 +57,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.lastUpdateTime = 0
         
         // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label
-        {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
+        self.scoreLabel = self.childNode(withName: "Score Label") as? SKLabelNode;
+        self.livesLable = self.childNode(withName: "Lives Label") as? SKLabelNode;
     }
     
     //==============================================================
@@ -74,11 +71,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         // Initialize _lastUpdateTime if it has not already been.
         if (self.lastUpdateTime == 0)
         {
-            self.lastUpdateTime = currentTime
+            self.lastUpdateTime = currentTime;
         }
         
         // Calculates the time since last update.
-        let deltaTime = currentTime - self.lastUpdateTime
+        let deltaTime = currentTime - self.lastUpdateTime;
         
         // Update entities
         for entity in self.entities
@@ -89,9 +86,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.lastUpdateTime = currentTime
         
         // Takes a life if the ball has resetted.
-        if ballNode.CheckIfResetBall()
+        if (ballNode?.CheckIfResetBall())!
         {
+            print(gameScore.Lives)
+
             gameScore.TakeLife();
+            self.livesLable!.text = "Lives: \(gameScore.Lives)"
         }
     }
     
@@ -108,11 +108,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             
             if (location.x < 0.0)
             {
-                tappedLeft();
+                Touch_TappedLeft();
             }
             else
             {
-                tappedRight();
+                Touch_TappedRight();
             }
         }
     }
@@ -162,8 +162,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             let impulse = CGVector(dx: 10, dy: 700);
             
-            leftFlipper.CheckIfApllyImpulse(ball: ballNode, impulse: impulse);
-            rightFlipper.CheckIfApllyImpulse(ball: ballNode, impulse: impulse);
+            leftFlipper?.CheckIfApllyImpulse(ball: ballNode!, impulse: impulse);
+            rightFlipper?.CheckIfApllyImpulse(ball: ballNode!, impulse: impulse);
         }
     }
     
@@ -188,42 +188,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         ballSpawnPointNode = childNode(withName: "Ball Spawn Point")!;
         
-        ballNode = childNode(withName: "Ball") as! Ball;
-        ballNode.Initialize(spawnPoint: ballSpawnPointNode.position, screenHeight: screenHeight);
+        ballNode = childNode(withName: "Ball") as? Ball;
+        ballNode?.Initialize(spawnPoint: (ballSpawnPointNode?.position)!, screenHeight: screenHeight);
         
-        leftFlipper = childNode(withName: "Left Flipper") as! Flipper;
-        rightFlipper = childNode(withName: "Right Flipper") as! Flipper;
-        leftFlipper.Initialize(upperRotationLimit: 45, lowerRotationLimit: -45, actionDuration: 0.05);
-        rightFlipper.Initialize(upperRotationLimit: -45, lowerRotationLimit: 45, actionDuration: 0.05);
+        leftFlipper = childNode(withName: "Left Flipper") as? Flipper;
+        rightFlipper = childNode(withName: "Right Flipper") as? Flipper;
+        leftFlipper?.Initialize(upperRotationLimit: 45, lowerRotationLimit: -45, actionDuration: 0.05);
+        rightFlipper?.Initialize(upperRotationLimit: -45, lowerRotationLimit: 45, actionDuration: 0.05);
     }
     
-    func tappedLeft()
+    func Touch_TappedLeft()
     {
         print("The player has touched the left side of the screen.");
         
-        leftFlipper.MoveUp();
+        leftFlipper!.MoveUp();
     }
     
-    func tappedRight()
+    func Touch_TappedRight()
     {
         Debug.Log("The player has touched the right side of the screen.");
         
-        rightFlipper.MoveUp();
+        rightFlipper!.MoveUp();
     }
     
     private func Touch_LetGoLeft()
     {
         Debug.Log("The player has let go of the left side.");
         
-        leftFlipper.MoveDown();
-        rightFlipper.MoveDown();
+        leftFlipper!.MoveDown();
+        rightFlipper!.MoveDown();
     }
     
     private func Touch_LetGoRight()
     {
         Debug.Log("The player has let go of the right side.");
         
-        leftFlipper.MoveDown();
-        rightFlipper.MoveDown();
+        leftFlipper!.MoveDown();
+        rightFlipper!.MoveDown();
     }
 }
