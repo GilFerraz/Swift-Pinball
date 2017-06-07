@@ -45,8 +45,8 @@ class Ball : SKSpriteNode
         
         self.physicsBody!.isDynamic = true;
         self.physicsBody!.categoryBitMask = PhysicsCategory.BallCategory;
-        self.physicsBody!.contactTestBitMask = PhysicsCategory.FlipperCategory;
-        self.physicsBody!.collisionBitMask = PhysicsCategory.FlipperCategory;
+        self.physicsBody!.contactTestBitMask = PhysicsCategory.FlipperCategory | PhysicsCategory.BumperCategory;
+        self.physicsBody!.collisionBitMask = PhysicsCategory.FlipperCategory | PhysicsCategory.BumperCategory;
     }
     
     public func CheckIfResetBall() -> Bool

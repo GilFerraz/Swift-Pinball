@@ -38,6 +38,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     private var leftFlipper : Flipper?
     private var rightFlipper : Flipper?;
     
+    private var arrows : Arrows?;
+    
     // Score
     private var gameScore : GameScore = GameScore(lives: 3);
     
@@ -54,7 +56,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         InitializePhysicsWorld();
         FindNodes();
         
-        self.lastUpdateTime = 0
+        self.lastUpdateTime = 0;
         
         // Get label node from scene and store it for use later
         self.scoreLabel = self.childNode(withName: "Score Label") as? SKLabelNode;
@@ -120,8 +122,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     /* Called when a touch has moved. */
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
     {
-        for touch in touches
-        {}
+        //for touch in touches
+        //{}
     }
     
     /* Called when a touch has ended. */
@@ -145,8 +147,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     /* Called when a touch has cancelled. */
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?)
     {
-        for touch in touches
-        { }
+        //for touch in touches
+        //{}
     }
     
     //==============================================================
@@ -160,10 +162,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         if Collision.HasSomethingCollided(contact: contact,
                                           categoryBitMask: PhysicsCategory.FlipperCategory)
         {
-            let impulse = CGVector(dx: 10, dy: 700);
+            Debug.Log("The ball has collided with a flipper.");
             
+            let impulse = CGVector(dx: 10, dy: 700);
             leftFlipper?.CheckIfApllyImpulse(ball: ballNode!, impulse: impulse);
             rightFlipper?.CheckIfApllyImpulse(ball: ballNode!, impulse: impulse);
+        }
+        
+        // Checks if the ball has collided with a bumper.
+        if Collision.HasCollided(contact: contact, categoryA: PhysicsCategory.BallCategory,
+                                 categoryB: PhysicsCategory.BumperCategory)
+        {
+            Debug.Log("The ball has collided with a bumper.");
+            
+            let bumper: Bumper = Collision.GetComponent(contact: contact);
+            
+            gameScore.AddScore(scoreToAdd: 10);
+            scoreLabel?.text = "Score: \(gameScore.Score)";
         }
     }
     
@@ -186,15 +201,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     /* Finds all scene nodes. */
     private func FindNodes()
     {
-        ballSpawnPointNode = childNode(withName: "Ball Spawn Point")!;
+        self.ballSpawnPointNode = childNode(withName: "Ball Spawn Point")!;
         
-        ballNode = childNode(withName: "Ball") as? Ball;
-        ballNode?.Initialize(spawnPoint: (ballSpawnPointNode?.position)!, screenHeight: screenHeight);
+        self.ballNode = childNode(withName: "Ball") as? Ball;
+        self.ballNode!.Initialize(spawnPoint: (ballSpawnPointNode?.position)!, screenHeight: screenHeight);
         
         leftFlipper = childNode(withName: "Left Flipper") as? Flipper;
         rightFlipper = childNode(withName: "Right Flipper") as? Flipper;
-        leftFlipper?.Initialize(upperRotationLimit: 45, lowerRotationLimit: -45, actionDuration: 0.05);
-        rightFlipper?.Initialize(upperRotationLimit: -45, lowerRotationLimit: 45, actionDuration: 0.05);
+        leftFlipper!.Initialize(upperRotationLimit: 45, lowerRotationLimit: -45, actionDuration: 0.05);
+        rightFlipper!.Initialize(upperRotationLimit: -45, lowerRotationLimit: 45, actionDuration: 0.05);
+        
+        self.arrows = childNode(withName: "Stage/Arrows") as? Arrows;
+        self.arrows?.Initialize(timePerFrame: 0.8);
+        
+        let bumperA = childNode(withName: "Stage/Bumpers/Bumper A") as? Bumper;
+        let bumperB = childNode(withName: "Stage/Bumpers/Bumper B") as? Bumper;
+        let bumperC = childNode(withName: "Stage/Bumpers/Bumper C") as? Bumper;
+        let bumperD = childNode(withName: "Stage/Bumpers/Bumper D") as? Bumper;
+        bumperA!.Initialize(pointsToGive: 10);
+        bumperB!.Initialize(pointsToGive: 10);
+        bumperC!.Initialize(pointsToGive: 10);
+        bumperD!.Initialize(pointsToGive: 10);
     }
     
     func Touch_TappedLeft()

@@ -46,4 +46,19 @@ public class Collision
         
         return false;
     }
+    
+    public static func GetComponent<T>(contact: SKPhysicsContact) -> T
+    {
+        if let component = contact.bodyA as? T
+        {
+            return component;
+        }
+        
+        if let component = contact.bodyB as? T
+        {
+            return component;
+        }
+        
+        fatalError();
+    }
 }

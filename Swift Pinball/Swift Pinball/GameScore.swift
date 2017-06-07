@@ -27,6 +27,11 @@ class GameScore
         Score = 0;
     }
     
+    public func AddScore(scoreToAdd: Int)
+    {
+        Score += scoreToAdd;
+    }
+    
     public func TakeLife()
     {
         Lives -= 1;
