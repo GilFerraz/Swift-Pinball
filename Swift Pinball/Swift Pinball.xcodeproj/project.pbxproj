@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7AEE98AC1EE871A50054F624 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEE98AB1EE871A50054F624 /* Debug.swift */; };
+		7AEE98AE1EE872370054F624 /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEE98AD1EE872370054F624 /* Ball.swift */; };
 		963F25391EE5A5A900D31540 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F25381EE5A5A900D31540 /* AppDelegate.swift */; };
 		963F253B1EE5A5A900D31540 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 963F253A1EE5A5A900D31540 /* GameScene.sks */; };
 		963F253D1EE5A5A900D31540 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 963F253C1EE5A5A900D31540 /* Actions.sks */; };
@@ -42,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7AEE98AB1EE871A50054F624 /* Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
+		7AEE98AD1EE872370054F624 /* Ball.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
 		963F25351EE5A5A900D31540 /* Swift Pinball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swift Pinball.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		963F25381EE5A5A900D31540 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		963F253A1EE5A5A900D31540 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 			children = (
 				963F25721EE60A2B00D31540 /* Angle.swift */,
 				96E1BB371EE855A800F4966D /* Collision.swift */,
+				7AEE98AB1EE871A50054F624 /* Debug.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -161,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				96C4EEC51EE705ED001EC180 /* Flipper.swift */,
+				7AEE98AD1EE872370054F624 /* Ball.swift */,
 			);
 			name = Nodes;
 			sourceTree = "<group>";
@@ -303,8 +309,10 @@
 			files = (
 				963F253F1EE5A5A900D31540 /* GameScene.swift in Sources */,
 				96E1BB381EE855A800F4966D /* Collision.swift in Sources */,
+				7AEE98AE1EE872370054F624 /* Ball.swift in Sources */,
 				963F256D1EE5A73A00D31540 /* PhysicsCategory.swift in Sources */,
 				96C4EEC61EE705ED001EC180 /* Flipper.swift in Sources */,
+				7AEE98AC1EE871A50054F624 /* Debug.swift in Sources */,
 				963F25711EE5FCB700D31540 /* GameScore.swift in Sources */,
 				963F25411EE5A5A900D31540 /* GameViewController.swift in Sources */,
 				963F25391EE5A5A900D31540 /* AppDelegate.swift in Sources */,

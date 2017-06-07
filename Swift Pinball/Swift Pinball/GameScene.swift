@@ -11,27 +11,34 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
+    //==============================================================
+    // Public Variables
+    //==============================================================
+    
     var screenWidth : CGFloat = 0.0;
-    var screenLength : CGFloat = 0.0;
+    var screenHeight : CGFloat = 0.0;
     
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
     
-    private var lastUpdateTime : TimeInterval = 0
+    //==============================================================
+    // Private Variables
+    //==============================================================
+    
+    private var lastUpdateTime : TimeInterval = 0;
+    
+    // UI
     private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
-    
-    private var gameScore : GameScore = GameScore(lives: 3);
-    
-    private var leftFlipperIsUp:Bool=false;
-    private var rightFlipperIsUp:Bool=false;
     
     // Sprite nodes
-    private var ballNode : SKSpriteNode = SKSpriteNode();
+    private var ballNode : Ball = Ball();
     private var ballSpawnPointNode : SKNode = SKNode();
     
-    private var leftFlipper : SKSpriteNode = SKSpriteNode();
-    private var rightFlipper : SKSpriteNode = SKSpriteNode();
+    private var leftFlipper : Flipper = Flipper();
+    private var rightFlipper : Flipper = Flipper();
+    
+    // Score
+    private var gameScore : GameScore = GameScore(lives: 3);
     
     //==============================================================
     // Scene Function
@@ -40,6 +47,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     /* Called when the Scene finished loading. */
     override func sceneDidLoad()
     {
+        screenWidth = self.size.width;
+        screenHeight = self.size.height;
+        
         InitializePhysicsWorld();
         FindNodes();
         
@@ -52,49 +62,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             label.alpha = 0.0
             label.run(SKAction.fadeIn(withDuration: 2.0))
         }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode
-        {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
     }
     
     //==============================================================
     // Update Function
     //==============================================================
     
-    /* Called every frame */
+    /* Called before each frame is rendered. */
     override func update(_ currentTime: TimeInterval)
     {
-        // Called before each frame is rendered
-        
-        // Initialize _lastUpdateTime if it has not already been
+        // Initialize _lastUpdateTime if it has not already been.
         if (self.lastUpdateTime == 0)
         {
             self.lastUpdateTime = currentTime
         }
         
-        // Calculate time since last update
-        let dt = currentTime - self.lastUpdateTime
+        // Calculates the time since last update.
+        let deltaTime = currentTime - self.lastUpdateTime
         
         // Update entities
         for entity in self.entities
         {
-            entity.update(deltaTime: dt)
+            entity.update(deltaTime: deltaTime)
         }
         
         self.lastUpdateTime = currentTime
         
-        CheckIfResetBall();
+        // Takes a life if the ball has resetted.
+        if ballNode.CheckIfResetBall()
+        {
+            gameScore.TakeLife();
+        }
     }
     
     //==============================================================
@@ -108,7 +106,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             let location = touch.location(in: self)
             
-            if (location.x < screenWidth/2)
+            if (location.x < 0.0)
             {
                 tappedLeft();
             }
@@ -123,9 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         for touch in touches
-        {
-            self.touchMoved(toPoint: touch.location(in: self))
-        }
+        {}
     }
     
     /* Called when a touch has ended. */
@@ -135,13 +131,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             let location = touch.location(in: self)
             
-            if (location.x < screenWidth/2)
+            if (location.x < 0.0)
             {
-                letGoLeft()
+                Touch_LetGoLeft();
             }
             else
             {
-                letGoRight()
+                Touch_LetGoRight();
             }
         }
     }
@@ -149,10 +145,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     /* Called when a touch has cancelled. */
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?)
     {
-        for t in touches
-        {
-            self.touchUp(atPoint: t.location(in: self))
-        }
+        for touch in touches
+        { }
     }
     
     //==============================================================
@@ -162,14 +156,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     /* Called when a physics contact happens. */
     func didBegin(_ contact: SKPhysicsContact)
     {
-        if Collision.DidCollideBothWays(contact: contact,
-                                        categoryBitMask: PhysicsCategory.FlipperCategory)
+        // Detects if something has collided with a flipper.
+        if Collision.HasSomethingCollided(contact: contact,
+                                          categoryBitMask: PhysicsCategory.FlipperCategory)
         {
-            if (leftFlipperIsUp && contact.bodyA.node?.name=="Left Flipper") ||
-                (rightFlipperIsUp && contact.bodyA.node?.name=="Right Flipper")
-            {
-                ballNode.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 700));
-            }
+            let impulse = CGVector(dx: 10, dy: 700);
+            
+            leftFlipper.CheckIfApllyImpulse(ball: ballNode, impulse: impulse);
+            rightFlipper.CheckIfApllyImpulse(ball: ballNode, impulse: impulse);
         }
     }
     
@@ -178,7 +172,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         
     }
-    
     
     //==============================================================
     // Other Functions
@@ -193,121 +186,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     /* Finds all scene nodes. */
     private func FindNodes()
     {
-        ballNode = childNode(withName: "Ball") as! SKSpriteNode;
-        ballNode.physicsBody!.isDynamic=true
-        ballNode.physicsBody!.categoryBitMask=PhysicsCategory.BallCategory
-        ballNode.physicsBody!.contactTestBitMask=PhysicsCategory.FlipperCategory
-        ballNode.physicsBody!.collisionBitMask=PhysicsCategory.FlipperCategory
-        
         ballSpawnPointNode = childNode(withName: "Ball Spawn Point")!;
         
-        leftFlipper = childNode(withName: "Left Flipper") as! SKSpriteNode;
-        leftFlipper.physicsBody!.categoryBitMask=PhysicsCategory.FlipperCategory
-        leftFlipper.physicsBody!.collisionBitMask=PhysicsCategory.BallCategory
-        leftFlipper.physicsBody!.contactTestBitMask=PhysicsCategory.BallCategory
+        ballNode = childNode(withName: "Ball") as! Ball;
+        ballNode.Initialize(spawnPoint: ballSpawnPointNode.position, screenHeight: screenHeight);
         
-        rightFlipper = childNode(withName: "Right Flipper") as! SKSpriteNode
-        rightFlipper.physicsBody!.categoryBitMask=PhysicsCategory.FlipperCategory;
-    rightFlipper.physicsBody!.collisionBitMask=PhysicsCategory.BallCategory
-        rightFlipper.physicsBody!.contactTestBitMask=PhysicsCategory.BallCategory
-        //let cons = SKConstraint.zRotation(SKRange.init(lowerLimit: -15, upperLimit: 15));
-        //leftFlipper.constraints?.append(cons)
+        leftFlipper = childNode(withName: "Left Flipper") as! Flipper;
+        rightFlipper = childNode(withName: "Right Flipper") as! Flipper;
+        leftFlipper.Initialize(upperRotationLimit: 45, lowerRotationLimit: -45, actionDuration: 0.05);
+        rightFlipper.Initialize(upperRotationLimit: -45, lowerRotationLimit: 45, actionDuration: 0.05);
     }
     
-    
-    
-    
-    
-    
-    func touchDown(atPoint pos : CGPoint)
-    {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode?
-        {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-    
-    func touchMoved(toPoint pos : CGPoint)
-    {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode?
-        {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-    
-    func touchUp(atPoint pos : CGPoint)
-    {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode?
-        {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
-    }
-
     func tappedLeft()
     {
-        print("The player has touched the left side of the screen.")
-        if !leftFlipperIsUp {
-            leftFlipperIsUp=true
-            let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: 45), duration: 0.01);
-            leftFlipper.run(action);
-        }
+        print("The player has touched the left side of the screen.");
+        
+        leftFlipper.MoveUp();
     }
     
     func tappedRight()
     {
-        print("The player has touched the right side of the screen.")
-        if !rightFlipperIsUp {
-            rightFlipperIsUp=true
-            let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: -45), duration: 0.01);
-        rightFlipper.run(action)
-        }
-    }
-    
-    func letGoLeft()
-    {
-        print("Player let go of the left side")
-        if(leftFlipperIsUp){
-        leftFlipperIsUp=false;
-        let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: -45), duration: 0.15);
-        leftFlipper.run(action)
-        }
-    }
-    
-    func letGoRight()
-    {
-        print("Player let go of the left side")
-        if(rightFlipperIsUp){
-        rightFlipperIsUp=false;
-        let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: 45), duration: 0.15);
-        rightFlipper.run(action)
-        }
-    }
-    
-    func CheckIfResetBall()
-    {
-        let heightThreshold = (-self.size.height * 0.5) + ballNode.size.height*0.5;
+        Debug.Log("The player has touched the right side of the screen.");
         
-        if ballNode.position.y < heightThreshold
-        {
-            ResetBall();
-            gameScore.TakeLife();
-        }
+        rightFlipper.MoveUp();
     }
     
-    private func ResetBall()
+    private func Touch_LetGoLeft()
     {
-        //print("The ball is resetting...");
+        Debug.Log("The player has let go of the left side.");
         
-        let spawnPosition = ballSpawnPointNode.position;
-        ballNode.position = spawnPosition;
+        leftFlipper.MoveDown();
+        rightFlipper.MoveDown();
+    }
+    
+    private func Touch_LetGoRight()
+    {
+        Debug.Log("The player has let go of the right side.");
         
-        ballNode.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
-        ballNode.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 1000));
-    }    
+        leftFlipper.MoveDown();
+        rightFlipper.MoveDown();
+    }
 }
