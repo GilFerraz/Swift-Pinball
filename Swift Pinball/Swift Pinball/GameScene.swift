@@ -259,5 +259,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         ballNode.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
         ballNode.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 1000));
-    }
+    }    
 }
