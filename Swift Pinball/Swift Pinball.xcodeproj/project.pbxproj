@@ -21,7 +21,7 @@
 		963F25711EE5FCB700D31540 /* GameScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F25701EE5FCB700D31540 /* GameScore.swift */; };
 		963F25731EE60A2B00D31540 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F25721EE60A2B00D31540 /* Angle.swift */; };
 		96C4EEC61EE705ED001EC180 /* Flipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C4EEC51EE705ED001EC180 /* Flipper.swift */; };
-		96E1BB381EE855A800F4966D /* CollisionUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E1BB371EE855A800F4966D /* CollisionUtility.swift */; };
+		96E1BB381EE855A800F4966D /* Collision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E1BB371EE855A800F4966D /* Collision.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +62,7 @@
 		963F25701EE5FCB700D31540 /* GameScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScore.swift; sourceTree = "<group>"; };
 		963F25721EE60A2B00D31540 /* Angle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		96C4EEC51EE705ED001EC180 /* Flipper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flipper.swift; sourceTree = "<group>"; };
-		96E1BB371EE855A800F4966D /* CollisionUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollisionUtility.swift; sourceTree = "<group>"; };
+		96E1BB371EE855A800F4966D /* Collision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collision.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,7 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				963F25721EE60A2B00D31540 /* Angle.swift */,
-				96E1BB371EE855A800F4966D /* CollisionUtility.swift */,
+				96E1BB371EE855A800F4966D /* Collision.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -302,7 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				963F253F1EE5A5A900D31540 /* GameScene.swift in Sources */,
-				96E1BB381EE855A800F4966D /* CollisionUtility.swift in Sources */,
+				96E1BB381EE855A800F4966D /* Collision.swift in Sources */,
 				963F256D1EE5A73A00D31540 /* PhysicsCategory.swift in Sources */,
 				96C4EEC61EE705ED001EC180 /* Flipper.swift in Sources */,
 				963F25711EE5FCB700D31540 /* GameScore.swift in Sources */,
