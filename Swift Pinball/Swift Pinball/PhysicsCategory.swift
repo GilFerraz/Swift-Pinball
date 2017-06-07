@@ -12,8 +12,8 @@ struct PhysicsCategory
 {
     static let None           : UInt32 = 0
     static let All            : UInt32 = UInt32.max
-    static let BirdCategory   : UInt32 = 0b1         // 1
+    static let BallCategory   : UInt32 = 0b1         // 1
     static let GroundCategory : UInt32 = 0b10        // 2
-    static let PipeCategory   : UInt32 = 0b11        // 3
+    static let FlipperCategory   : UInt32 = 0b11        // 3
     static let ScoreCategory  : UInt32 = 0b100       // 4
 }

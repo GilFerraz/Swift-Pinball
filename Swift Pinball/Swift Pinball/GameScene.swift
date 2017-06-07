@@ -23,7 +23,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     private var gameScore : GameScore = GameScore(lives: 3);
     
-    private var isHoldingTouch:Bool=false;
+    private var leftFlipperIsUp:Bool=false;
+    private var rightFlipperIsUp:Bool=false;
     
     // Sprite nodes
     private var ballNode : SKSpriteNode = SKSpriteNode();
@@ -161,13 +162,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     /* Called when a physics contact happens. */
     func didBegin(_ contact: SKPhysicsContact)
     {
-        print("Collisions Happeded")
-        if(contact.bodyA.node?.name=="Ball")
+        if(contact.bodyA.categoryBitMask==PhysicsCategory.FlipperCategory)
         {
-            debugPrint("Ball touched...")
-            if(contact.bodyB.node?.name=="Left Flipper" || contact.bodyB.node?.name=="Right Flipper"){
-                debugPrint("...a Flipper")
-            }
+        if (leftFlipperIsUp && contact.bodyA.node?.name=="Left Flipper") || (rightFlipperIsUp && contact.bodyA.node?.name=="Right Flipper") {
+        ballNode.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 500));
+        }
         }
     }
     
@@ -192,11 +191,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     private func FindNodes()
     {
         ballNode = childNode(withName: "Ball") as! SKSpriteNode;
-        ballSpawnPointNode = childNode(withName: "Ball Spawn Point")!;
-        print(ballNode.name!)
-        leftFlipper = childNode(withName: "Left Flipper") as! SKSpriteNode;
+        ballNode.physicsBody!.isDynamic=true
+        ballNode.physicsBody!.categoryBitMask=PhysicsCategory.BallCategory
+        ballNode.physicsBody!.contactTestBitMask=PhysicsCategory.FlipperCategory
+        ballNode.physicsBody!.collisionBitMask=PhysicsCategory.FlipperCategory
         
-        rightFlipper = childNode(withName: "Right Flipper") as! SKSpriteNode;
+        ballSpawnPointNode = childNode(withName: "Ball Spawn Point")!;
+        
+        leftFlipper = childNode(withName: "Left Flipper") as! SKSpriteNode;
+        leftFlipper.physicsBody!.categoryBitMask=PhysicsCategory.FlipperCategory
+        leftFlipper.physicsBody!.collisionBitMask=PhysicsCategory.BallCategory
+        leftFlipper.physicsBody!.contactTestBitMask=PhysicsCategory.BallCategory
+        
+        rightFlipper = childNode(withName: "Right Flipper") as! SKSpriteNode
+        rightFlipper.physicsBody!.categoryBitMask=PhysicsCategory.FlipperCategory;
+    rightFlipper.physicsBody!.collisionBitMask=PhysicsCategory.BallCategory
+        rightFlipper.physicsBody!.contactTestBitMask=PhysicsCategory.BallCategory
         //let cons = SKConstraint.zRotation(SKRange.init(lowerLimit: -15, upperLimit: 15));
         //leftFlipper.constraints?.append(cons)
     }
@@ -239,17 +249,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     func tappedLeft()
     {
         print("The player has touched the left side of the screen.")
-        if !isHoldingTouch {
-        let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: 45), duration: 0.01);
+        if !leftFlipperIsUp {
+            leftFlipperIsUp=true
+            let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: 45), duration: 0.01);
             leftFlipper.run(action);
-            isHoldingTouch=true
         }
     }
     
     func tappedRight()
     {
         print("The player has touched the right side of the screen.")
-        if !isHoldingTouch {
+        if !rightFlipperIsUp {
+            rightFlipperIsUp=true
             let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: -45), duration: 0.01);
         rightFlipper.run(action)
         }
@@ -258,17 +269,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     func letGoLeft()
     {
         print("Player let go of the left side")
-        isHoldingTouch=false;
+        if(leftFlipperIsUp){
+        leftFlipperIsUp=false;
         let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: -45), duration: 0.15);
         leftFlipper.run(action)
+        }
     }
     
     func letGoRight()
     {
         print("Player let go of the left side")
-        isHoldingTouch=false;
+        if(rightFlipperIsUp){
+        rightFlipperIsUp=false;
         let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: 45), duration: 0.15);
         rightFlipper.run(action)
+        }
     }
     
     func CheckIfResetBall()
