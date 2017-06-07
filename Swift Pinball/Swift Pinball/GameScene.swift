@@ -23,6 +23,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     private var gameScore : GameScore = GameScore(lives: 3);
     
+    private var isHoldingTouch:Bool=false;
+    
     // Sprite nodes
     private var ballNode : SKSpriteNode = SKSpriteNode();
     private var ballSpawnPointNode : SKNode = SKNode();
@@ -91,7 +93,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         self.lastUpdateTime = currentTime
         
-        
         CheckIfResetBall();
     }
     
@@ -131,7 +132,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         for touch in touches
         {
-            self.touchUp(atPoint: touch.location(in: self))
+            let location = touch.location(in: self)
+            
+            if (location.x < screenWidth/2)
+            {
+                letGoLeft()
+            }
+            else
+            {
+                letGoRight()
+            }
         }
     }
     
@@ -151,7 +161,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     /* Called when a physics contact happens. */
     func didBegin(_ contact: SKPhysicsContact)
     {
-        
+        print("Collisions Happeded")
+        if(contact.bodyA.node?.name=="Ball")
+        {
+            debugPrint("Ball touched...")
+            if(contact.bodyB.node?.name=="Left Flipper" || contact.bodyB.node?.name=="Right Flipper"){
+                debugPrint("...a Flipper")
+            }
+        }
     }
     
     /* Called when a physics contact ends. */
@@ -176,10 +193,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         ballNode = childNode(withName: "Ball") as! SKSpriteNode;
         ballSpawnPointNode = childNode(withName: "Ball Spawn Point")!;
-        
+        print(ballNode.name!)
         leftFlipper = childNode(withName: "Left Flipper") as! SKSpriteNode;
-        rightFlipper = childNode(withName: "Right Flipper") as! SKSpriteNode;
         
+        rightFlipper = childNode(withName: "Right Flipper") as! SKSpriteNode;
         //let cons = SKConstraint.zRotation(SKRange.init(lowerLimit: -15, upperLimit: 15));
         //leftFlipper.constraints?.append(cons)
     }
@@ -222,21 +239,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     func tappedLeft()
     {
         print("The player has touched the left side of the screen.")
-        
+        if !isHoldingTouch {
         let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: 45), duration: 0.01);
-        let actionReverse = SKAction.rotate(byAngle: Angle.ToRadians(degrees: -45), duration: 0.15);
-        let sequence = SKAction.sequence([action, actionReverse])
-        leftFlipper.run(sequence);
+            leftFlipper.run(action);
+            isHoldingTouch=true
+        }
     }
     
     func tappedRight()
     {
         print("The player has touched the right side of the screen.")
-        
-        let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: -45), duration: 0.01);
-        let actionReverse = SKAction.rotate(byAngle: Angle.ToRadians(degrees: 45), duration: 0.15);
-        let sequence = SKAction.sequence([action, actionReverse])
-        rightFlipper.run(sequence);
+        if !isHoldingTouch {
+            let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: -45), duration: 0.01);
+        rightFlipper.run(action)
+        }
+    }
+    
+    func letGoLeft()
+    {
+        print("Player let go of the left side")
+        isHoldingTouch=false;
+        let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: -45), duration: 0.15);
+        leftFlipper.run(action)
+    }
+    
+    func letGoRight()
+    {
+        print("Player let go of the left side")
+        isHoldingTouch=false;
+        let action = SKAction.rotate(byAngle: Angle.ToRadians(degrees: 45), duration: 0.15);
+        rightFlipper.run(action)
     }
     
     func CheckIfResetBall()
@@ -252,7 +284,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     private func ResetBall()
     {
-        print("The ball is resetting...");
+        //print("The ball is resetting...");
         
         let spawnPosition = ballSpawnPointNode.position;
         ballNode.position = spawnPosition;
