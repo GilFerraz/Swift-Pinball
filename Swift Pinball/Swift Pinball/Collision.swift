@@ -47,14 +47,14 @@ public class Collision
         return false;
     }
     
-    public static func GetComponent<T>(contact: SKPhysicsContact) -> T
+    public static func GetNode<T>(contact: SKPhysicsContact) -> T
     {
-        if let component = contact.bodyA as? T
+        if let component = contact.bodyA.node as? T
         {
             return component;
         }
         
-        if let component = contact.bodyB as? T
+        if let component = contact.bodyB.node as? T
         {
             return component;
         }

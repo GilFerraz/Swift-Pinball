@@ -11,7 +11,9 @@ import SpriteKit;
 
 class Bumper : SKSpriteNode
 {
+    private let folderPath = "Stage/Bumper A/";
     private var pointsToGive: Int = 0;
+    private var animationAction: SKAction?;
     
     //==============================================================
     // Initializers
@@ -44,9 +46,12 @@ class Bumper : SKSpriteNode
         self.physicsBody!.contactTestBitMask = PhysicsCategory.BallCategory;
         
         //
-        let inactiveTexture = SKTexture(imageNamed: "");
-        let semiActiveTexture = SKTexture(imageNamed: "");
-        let activeTexture = SKTexture(imageNamed: "");
+        let inactiveTexture = SKTexture(imageNamed: "Inactive");
+        let semiActiveTexture = SKTexture(imageNamed: "Semi-Active");
+        let activeTexture = SKTexture(imageNamed: "Active");
+        
+        let textureList = [semiActiveTexture, activeTexture, inactiveTexture];
+        animationAction = SKAction.animate(with: textureList, timePerFrame: 0.05);
     }
     
     //==============================================================
@@ -54,6 +59,6 @@ class Bumper : SKSpriteNode
     //==============================================================
     public func Collided()
     {
-        
+        self.run(animationAction!);
     }
 }

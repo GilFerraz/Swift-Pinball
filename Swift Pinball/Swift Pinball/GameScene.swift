@@ -175,7 +175,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             Debug.Log("The ball has collided with a bumper.");
             
-            let bumper: Bumper = Collision.GetComponent(contact: contact);
+            let bumper: Bumper = Collision.GetNode(contact: contact);
+            bumper.Collided();
             
             gameScore.AddScore(scoreToAdd: 10);
             scoreLabel?.text = "Score: \(gameScore.Score)";
