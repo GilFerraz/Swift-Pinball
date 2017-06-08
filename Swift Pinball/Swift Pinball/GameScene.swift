@@ -41,7 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     private var arrows : Arrows?;
     
     // Score
-    private var gameScore : GameScore = GameScore(lives: 3);
+    //private var gameScore : GameScore = GameScore(lives: 3);
     
     //==============================================================
     // Scene Function
@@ -62,6 +62,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.scoreLabel = self.childNode(withName: "Score Label") as? SKLabelNode;
         self.livesLable = self.childNode(withName: "Lives Label") as? SKLabelNode;
     }
+    
+    func ChangeToGameOverScene()
+    {
+        let lossScene=GameOverScene(size: self.size)
+        lossScene.scaleMode=scaleMode
+        let transition=SKTransition.flipVertical(withDuration: 1)
+        self.view?.presentScene(lossScene,transition:transition)    }
     
     //==============================================================
     // Update Function
@@ -90,10 +97,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         // Takes a life if the ball has resetted.
         if (ballNode?.CheckIfResetBall())!
         {
-            print(gameScore.Lives)
-
-            gameScore.TakeLife();
-            self.livesLable!.text = "Lives: \(gameScore.Lives)"
+            GameScore.instance.TakeLife();
+            self.livesLable!.text = "Lives: \(GameScore.instance.Lives)"
+        }
+        
+        if(GameScore.instance.Lives==0)
+        {
+            ChangeToGameOverScene()
         }
     }
     
@@ -178,8 +188,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             let bumper: Bumper = Collision.GetNode(contact: contact);
             bumper.Collided();
             
-            gameScore.AddScore(scoreToAdd: 10);
-            scoreLabel?.text = "Score: \(gameScore.Score)";
+            GameScore.instance.AddScore(scoreToAdd: 10);
+            scoreLabel?.text = "Score: \(GameScore.instance.Score)";
         }
     }
     
@@ -253,5 +263,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         leftFlipper!.MoveDown();
         rightFlipper!.MoveDown();
-    }
-}
+    }}

@@ -27,6 +27,8 @@
 		963F25731EE60A2B00D31540 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F25721EE60A2B00D31540 /* Angle.swift */; };
 		96C4EEC61EE705ED001EC180 /* Flipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C4EEC51EE705ED001EC180 /* Flipper.swift */; };
 		96E1BB381EE855A800F4966D /* Collision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E1BB371EE855A800F4966D /* Collision.swift */; };
+		A47010441EE9F27C00E66258 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47010431EE9F27C00E66258 /* MenuScene.swift */; };
+		A4EB63AD1EE9E4660032FCBE /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EB63AC1EE9E4660032FCBE /* GameOverScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		963F25721EE60A2B00D31540 /* Angle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		96C4EEC51EE705ED001EC180 /* Flipper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flipper.swift; sourceTree = "<group>"; };
 		96E1BB371EE855A800F4966D /* Collision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collision.swift; sourceTree = "<group>"; };
+		A47010431EE9F27C00E66258 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuScene.swift; path = ../MenuScene.swift; sourceTree = "<group>"; };
+		A4EB63AC1EE9E4660032FCBE /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +142,9 @@
 				963F25381EE5A5A900D31540 /* AppDelegate.swift */,
 				963F253C1EE5A5A900D31540 /* Actions.sks */,
 				7AEE98B31EE8A5B00054F624 /* GameScene.sks */,
+				A47010431EE9F27C00E66258 /* MenuScene.swift */,
 				963F253E1EE5A5A900D31540 /* GameScene.swift */,
+				A4EB63AC1EE9E4660032FCBE /* GameOverScene.swift */,
 				963F25401EE5A5A900D31540 /* GameViewController.swift */,
 				963F25421EE5A5A900D31540 /* Main.storyboard */,
 				963F25451EE5A5A900D31540 /* Assets.xcassets */,
@@ -330,11 +336,13 @@
 				7AEE98B01EE889650054F624 /* UIAnimation.swift in Sources */,
 				7AEE98AE1EE872370054F624 /* Ball.swift in Sources */,
 				963F256D1EE5A73A00D31540 /* PhysicsCategory.swift in Sources */,
+				A4EB63AD1EE9E4660032FCBE /* GameOverScene.swift in Sources */,
 				96C4EEC61EE705ED001EC180 /* Flipper.swift in Sources */,
 				7AEE98AC1EE871A50054F624 /* Debug.swift in Sources */,
 				963F25711EE5FCB700D31540 /* GameScore.swift in Sources */,
 				963F25411EE5A5A900D31540 /* GameViewController.swift in Sources */,
 				7AEE98B21EE89A400054F624 /* Arrows.swift in Sources */,
+				A47010441EE9F27C00E66258 /* MenuScene.swift in Sources */,
 				963F25391EE5A5A900D31540 /* AppDelegate.swift in Sources */,
 				963F25731EE60A2B00D31540 /* Angle.swift in Sources */,
 			);

@@ -13,6 +13,8 @@ class GameScore
     var Lives : Int;
     var Score : Int;
     
+    static let instance=GameScore(lives: 3)
+    
     var HasLives: Bool
     {
         get
@@ -21,7 +23,7 @@ class GameScore
         }
     }
     
-    init(lives: Int)
+    private init(lives: Int)
     {
         Lives = lives;
         Score = 0;
