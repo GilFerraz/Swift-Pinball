@@ -23,7 +23,7 @@ class GameScore
         }
     }
     
-    private init(lives: Int)
+    init(lives: Int)
     {
         Lives = lives;
         Score = 0;
