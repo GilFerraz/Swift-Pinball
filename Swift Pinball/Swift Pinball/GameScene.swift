@@ -35,13 +35,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     private var ballNode : Ball?
     private var ballSpawnPointNode : SKNode?
     
-    private var leftFlipper : Flipper?
+    private var leftFlipper : Flipper?;
     private var rightFlipper : Flipper?;
+    private var rightFlipper2 : Flipper?;
     
     private var arrows : Arrows?;
     
     // Score
-    private var gameScore : GameScore = GameScore(lives: 3);
+    private var gameScore : GameScore = GameScore(lives: 5);
+    
+    // Audio
+    private var musicPlayer: MusicPlayer?;
+    private var soundsPlayer: SoundsPlayer?;
     
     //==============================================================
     // Scene Function
@@ -54,13 +59,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         screenHeight = self.size.height;
         
         InitializePhysicsWorld();
+        InitializeAudio();
+        
         FindNodes();
+        FindUINodes();
         
         self.lastUpdateTime = 0;
-        
-        // Get label node from scene and store it for use later
-        self.scoreLabel = self.childNode(withName: "Score Label") as? SKLabelNode;
-        self.livesLable = self.childNode(withName: "Lives Label") as? SKLabelNode;
     }
     
     //==============================================================
@@ -90,10 +94,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         // Takes a life if the ball has resetted.
         if (ballNode?.CheckIfResetBall())!
         {
-            print(gameScore.Lives)
-
             gameScore.TakeLife();
             self.livesLable!.text = "Lives: \(gameScore.Lives)"
+            
+            soundsPlayer?.PlayGate();
+            
+            Debug.Log("Took a life. Lives left: \(gameScore.Lives)");
         }
     }
     
@@ -116,6 +122,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             {
                 Touch_TappedRight();
             }
+            
+            soundsPlayer?.PlayFlipperUp();
         }
     }
     
@@ -158,6 +166,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     /* Called when a physics contact happens. */
     func didBegin(_ contact: SKPhysicsContact)
     {
+        
+        // Detects if something has collided with a flipper.
+        if Collision.HasSomethingCollided(contact: contact,
+                                          categoryBitMask: PhysicsCategory.BallCategory)
+        {
+            Debug.Log("The ball has collided with something.");
+            
+            soundsPlayer?.PlayBallCollision();
+        }
+        
         // Detects if something has collided with a flipper.
         if Collision.HasSomethingCollided(contact: contact,
                                           categoryBitMask: PhysicsCategory.FlipperCategory)
@@ -170,16 +188,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
         
         // Checks if the ball has collided with a bumper.
-        if Collision.HasCollided(contact: contact, categoryA: PhysicsCategory.BallCategory,
-                                 categoryB: PhysicsCategory.BumperCategory)
+        if Collision.HasCollided(contact: contact, categoryA: Physics.BallCategory.rawValue,
+                                 categoryB: Physics.BumperCategory.rawValue)
         {
             Debug.Log("The ball has collided with a bumper.");
             
+            // Activates the bumper's collision action;
             let bumper: Bumper = Collision.GetNode(contact: contact);
             bumper.Collided();
+            soundsPlayer?.PlayBumper();
             
-            gameScore.AddScore(scoreToAdd: 10);
+            // Updates the game score.
+            gameScore.AddScore(scoreToAdd: bumper.PointsToGive);
             scoreLabel?.text = "Score: \(gameScore.Score)";
+        }
+        
+        // Checks if the ball has collided with a bumper.
+        if Collision.HasCollided(contact: contact, categoryA: Physics.BallCategory.rawValue,
+                                 categoryB: Physics.ArrowsCategory.rawValue)
+        {
+            Debug.Log("The ball has collided with the arrows.");
+            
+            // Activates the bumper's collision action;
+            let arrows: Arrows = Collision.GetNode(contact: contact);
+            arrows.Collided(ball: ballNode!);
         }
     }
     
@@ -199,6 +231,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         physicsWorld.contactDelegate = self;
     }
     
+    /* Initializes the game's audio. */
+    private func InitializeAudio()
+    {
+        // Background music.
+        musicPlayer = MusicPlayer(scene: self, fileNamed: "BackgroundMusic.mp3");
+        musicPlayer!.Play();
+        
+        soundsPlayer = SoundsPlayer(scene: self);
+    }
+    
     /* Finds all scene nodes. */
     private func FindNodes()
     {
@@ -209,11 +251,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         leftFlipper = childNode(withName: "Left Flipper") as? Flipper;
         rightFlipper = childNode(withName: "Right Flipper") as? Flipper;
+        rightFlipper2 = childNode(withName: "Upper Right Flipper") as? Flipper;
         leftFlipper!.Initialize(upperRotationLimit: 45, lowerRotationLimit: -45, actionDuration: 0.05);
         rightFlipper!.Initialize(upperRotationLimit: -45, lowerRotationLimit: 45, actionDuration: 0.05);
-        
+        rightFlipper2!.Initialize(upperRotationLimit: -45, lowerRotationLimit: 45, actionDuration: 0.08);
+
+        let forceToApply: CGVector = CGVector(dx: 0, dy: 300);
         self.arrows = childNode(withName: "Stage/Arrows") as? Arrows;
-        self.arrows?.Initialize(timePerFrame: 0.8);
+        self.arrows?.Initialize(forceToApply: forceToApply, timePerFrame: 0.8);
         
         let bumperA = childNode(withName: "Stage/Bumpers/Bumper A") as? Bumper;
         let bumperB = childNode(withName: "Stage/Bumpers/Bumper B") as? Bumper;
@@ -223,6 +268,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         bumperB!.Initialize(pointsToGive: 10);
         bumperC!.Initialize(pointsToGive: 10);
         bumperD!.Initialize(pointsToGive: 10);
+        
+        let bumper2A = childNode(withName: "Stage/Bumpers/Bumper 2A") as? BumperB;
+        let bumper2B = childNode(withName: "Stage/Bumpers/Bumper 2B") as? BumperB;
+        bumper2A!.Initialize(pointsToGive: 15);
+        bumper2B!.Initialize(pointsToGive: 15);
+    }
+    
+    /* Finds all UI scene nodes. */
+    private func FindUINodes()
+    {
+        self.scoreLabel = self.childNode(withName: "Score Label") as? SKLabelNode;
+        self.livesLable = self.childNode(withName: "Lives Label") as? SKLabelNode;
     }
     
     func Touch_TappedLeft()
@@ -237,6 +294,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         Debug.Log("The player has touched the right side of the screen.");
         
         rightFlipper!.MoveUp();
+        rightFlipper2!.MoveUp();
     }
     
     private func Touch_LetGoLeft()
@@ -245,6 +303,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         leftFlipper!.MoveDown();
         rightFlipper!.MoveDown();
+        rightFlipper2!.MoveDown();
     }
     
     private func Touch_LetGoRight()
@@ -253,5 +312,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         leftFlipper!.MoveDown();
         rightFlipper!.MoveDown();
+        rightFlipper2!.MoveDown();
     }
 }

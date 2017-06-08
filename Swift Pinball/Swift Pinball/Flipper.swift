@@ -60,9 +60,9 @@ class Flipper : SKSpriteNode
         self.downRotationAction = SKAction.rotate(byAngle: lowerRotation, duration: self.actionDuration);
         
         self.physicsBody!.isDynamic = false;
-        self.physicsBody!.categoryBitMask = PhysicsCategory.FlipperCategory;
-        self.physicsBody!.collisionBitMask = PhysicsCategory.BallCategory;
-        self.physicsBody!.contactTestBitMask = PhysicsCategory.BallCategory;
+        self.physicsBody!.categoryBitMask = Physics.FlipperCategory.rawValue//PhysicsCategory.FlipperCategory;
+        self.physicsBody!.collisionBitMask = Physics.BallCategory.rawValue//PhysicsCategory.BallCategory;
+        self.physicsBody!.contactTestBitMask = Physics.BallCategory.rawValue//PhysicsCategory.BallCategory;
     }
     
     public func MoveUp()
@@ -88,7 +88,7 @@ class Flipper : SKSpriteNode
     {
         if shouldApplyImpulse
         {
-          ball.physicsBody?.applyImpulse(impulse);
+            ball.physicsBody?.applyImpulse(impulse);
         }
     }
 }

@@ -44,9 +44,11 @@ class Ball : SKSpriteNode
         self.heighThreshold = -(screenHeight * 0.5) - self.size.height * 0.5;
         
         self.physicsBody!.isDynamic = true;
-        self.physicsBody!.categoryBitMask = PhysicsCategory.BallCategory;
-        self.physicsBody!.contactTestBitMask = PhysicsCategory.FlipperCategory | PhysicsCategory.BumperCategory;
-        self.physicsBody!.collisionBitMask = PhysicsCategory.FlipperCategory | PhysicsCategory.BumperCategory;
+        self.physicsBody!.categoryBitMask = Physics.BallCategory.rawValue//PhysicsCategory.BallCategory;
+        self.physicsBody!.contactTestBitMask = Physics.FlipperCategory.rawValue | Physics.BumperCategory.rawValue | Physics.ArrowsCategory.rawValue
+        //PhysicsCategory.FlipperCategory | PhysicsCategory.BumperCategory | PhysicsCategory.ArrowsCategory;
+        self.physicsBody!.collisionBitMask = Physics.FlipperCategory.rawValue | Physics.BumperCategory.rawValue
+        //PhysicsCategory.FlipperCategory | PhysicsCategory.BumperCategory;
     }
     
     public func CheckIfResetBall() -> Bool
