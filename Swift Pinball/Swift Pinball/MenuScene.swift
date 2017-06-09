@@ -56,7 +56,7 @@ class MenuScene:SKScene
         let newScene = GameScene(fileNamed: "GameScene")
         newScene?.scaleMode=scaleMode;
         
-        let transition=SKTransition.flipVertical(withDuration: 1)
-        self.view?.presentScene(newScene!,transition:transition);
+        let transition = SKTransition.doorway(withDuration: 1.0);
+        self.view?.presentScene(newScene!, transition:transition);
     }
 }

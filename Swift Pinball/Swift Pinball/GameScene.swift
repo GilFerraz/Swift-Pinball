@@ -49,8 +49,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     // Scene Function
     //==============================================================
    
-    override func didMove(to view: SKView) {
- }
+    override func didMove(to view: SKView) {}
+    
     /* Called when the Scene finished loading. */
     override func sceneDidLoad()
     {
@@ -63,15 +63,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         FindNodes();
         FindUINodes();
         
-        self.lastUpdateTime = 0;       }
-    
-    func ChangeToGameOverScene()
-    {
-        let lossScene=EndScene(size: self.size)
-        lossScene.scaleMode=scaleMode
-        let transition=SKTransition.flipVertical(withDuration: 1)
-        self.view?.presentScene(lossScene,transition:transition)
+        self.lastUpdateTime = 0;
     }
+    
     //==============================================================
     // Update Function
     //==============================================================
@@ -343,5 +337,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         leftFlipper!.MoveDown();
         rightFlipper!.MoveDown();
         rightFlipper2!.MoveDown();
+    }
+    
+    private func ChangeToGameOverScene()
+    {
+        let lossScene = EndScene(size: self.size);
+        lossScene.scaleMode=scaleMode;
+        
+        let transition=SKTransition.doorsCloseHorizontal(withDuration: 1);
+        self.view?.presentScene(lossScene,transition:transition)
     }
 }
