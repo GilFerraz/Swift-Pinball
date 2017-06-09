@@ -51,7 +51,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     //==============================================================
     // Scene Function
     //==============================================================
-    
+   
+    override func didMove(to view: SKView) {
+ }
     /* Called when the Scene finished loading. */
     override func sceneDidLoad()
     {
@@ -64,9 +66,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         FindNodes();
         FindUINodes();
         
-        self.lastUpdateTime = 0;
-    }
+        self.lastUpdateTime = 0;       }
     
+    func ChangeToGameOverScene()
+    {
+        let lossScene=EndScene(size: self.size)
+        lossScene.scaleMode=scaleMode
+        let transition=SKTransition.flipVertical(withDuration: 1)
+        self.view?.presentScene(lossScene,transition:transition)
+    }
     //==============================================================
     // Update Function
     //==============================================================
@@ -100,6 +108,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             soundsPlayer?.PlayGate();
             
             Debug.Log("Took a life. Lives left: \(gameScore.Lives)");
+        }
+        
+        if(gameScore.Lives==0)
+        {
+            ChangeToGameOverScene()
         }
     }
     
@@ -235,8 +248,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     private func InitializeAudio()
     {
         // Background music.
-        musicPlayer = MusicPlayer(scene: self, fileNamed: "BackgroundMusic.mp3");
-        musicPlayer!.Play();
+        //musicPlayer = MusicPlayer(scene: self, fileNamed: "BackgroundMusic.mp3");
+        //musicPlayer!.Play();
         
         soundsPlayer = SoundsPlayer(scene: self);
     }
@@ -255,7 +268,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         leftFlipper!.Initialize(upperRotationLimit: 45, lowerRotationLimit: -45, actionDuration: 0.05);
         rightFlipper!.Initialize(upperRotationLimit: -45, lowerRotationLimit: 45, actionDuration: 0.05);
         rightFlipper2!.Initialize(upperRotationLimit: -45, lowerRotationLimit: 45, actionDuration: 0.08);
-
+        
         let forceToApply: CGVector = CGVector(dx: 0, dy: 300);
         self.arrows = childNode(withName: "Stage/Arrows") as? Arrows;
         self.arrows?.Initialize(forceToApply: forceToApply, timePerFrame: 0.8);

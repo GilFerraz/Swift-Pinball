@@ -19,7 +19,7 @@ class SoundsPlayer
     private var flipperUp: SKAudioNode;
     private var gate: SKAudioNode;
     private var rollyingMaybe: SKAudioNode;
-    private var slingShots: SKAudioNode;
+    //private var slingShots: SKAudioNode;
     
     private let playAction = SKAction.play();
     
@@ -33,7 +33,7 @@ class SoundsPlayer
         flipperUp = SKAudioNode(fileNamed: "FlipperUp.wav");
         gate = SKAudioNode(fileNamed: "Gate4.wav");
         rollyingMaybe = SKAudioNode(fileNamed: "RollyingMaybe.caf");
-        slingShots = SKAudioNode(fileNamed: "SlingShots.caf");
+        //slingShots = SKAudioNode(fileNamed: "SlingShots.caf");
         
         InitializeAudioNode(audioNode: ballCollision);
         InitializeAudioNode(audioNode: ballRelease);
@@ -41,7 +41,7 @@ class SoundsPlayer
         InitializeAudioNode(audioNode: flipperUp);
         InitializeAudioNode(audioNode: gate);
         InitializeAudioNode(audioNode: rollyingMaybe);
-        InitializeAudioNode(audioNode: slingShots);
+        //InitializeAudioNode(audioNode: slingShots);
     }
     
     public func PlayBallCollision()
