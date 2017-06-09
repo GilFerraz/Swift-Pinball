@@ -41,9 +41,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     private var arrows : Arrows?;
     
-    // Score
-    private var gameScore : GameScore = GameScore(lives: 5);
-    
     // Audio
     private var musicPlayer: MusicPlayer?;
     private var soundsPlayer: SoundsPlayer?;
@@ -102,17 +99,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         // Takes a life if the ball has resetted.
         if (ballNode?.CheckIfResetBall())!
         {
-            gameScore.TakeLife();
-            self.livesLable!.text = "Lives: \(gameScore.Lives)"
+            GameScore.instance.TakeLife();
+            self.livesLable!.text = "Lives: \(GameScore.instance.Lives)"
             
             soundsPlayer?.PlayGate();
             
-            Debug.Log("Took a life. Lives left: \(gameScore.Lives)");
+            Debug.Log("Took a life. Lives left: \(GameScore.instance.Lives)");
         }
         
-        if(gameScore.Lives==0)
+        if(GameScore.instance.Lives < 0)
         {
-            ChangeToGameOverScene()
+            ChangeToGameOverScene();
         }
     }
     
@@ -212,8 +209,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             soundsPlayer?.PlayBumper();
             
             // Updates the game score.
-            gameScore.AddScore(scoreToAdd: bumper.PointsToGive);
-            scoreLabel?.text = "Score: \(gameScore.Score)";
+            GameScore.instance.AddScore(scoreToAdd: bumper.PointsToGive);
+            scoreLabel?.text = "Score: \(GameScore.instance.Score)";
         }
         
         // Checks if the ball has collided with a bumper.
@@ -311,6 +308,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         self.scoreLabel = self.childNode(withName: "Score Label") as? SKLabelNode;
         self.livesLable = self.childNode(withName: "Lives Label") as? SKLabelNode;
+        
+        self.scoreLabel?.text = "Score: \(GameScore.instance.Score)";
     }
     
     func Touch_TappedLeft()

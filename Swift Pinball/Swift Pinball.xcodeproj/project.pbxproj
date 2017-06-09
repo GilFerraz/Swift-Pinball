@@ -31,6 +31,7 @@
 		96E1BB3D1EE9EEA200F4966D /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E1BB3C1EE9EEA200F4966D /* MusicPlayer.swift */; };
 		96E1BB3F1EE9F22000F4966D /* SKTAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E1BB3E1EE9F22000F4966D /* SKTAudio.swift */; };
 		96E1BB4C1EE9F44C00F4966D /* SoundsPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E1BB4B1EE9F44C00F4966D /* SoundsPlayer.swift */; };
+		96E1BB6A1EEA253300F4966D /* Light.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E1BB691EEA253300F4966D /* Light.swift */; };
 		A4C385D51EEA070000AA57EE /* EndScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C385D41EEA070000AA57EE /* EndScene.swift */; };
 		A4C385D71EEA071800AA57EE /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C385D61EEA071800AA57EE /* MenuScene.swift */; };
 		A4D23A221EEA0F450010F6B2 /* FlipperUp.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4D23A1F1EEA0F440010F6B2 /* FlipperUp.wav */; };
@@ -88,6 +89,7 @@
 		96E1BB3C1EE9EEA200F4966D /* MusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		96E1BB3E1EE9F22000F4966D /* SKTAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKTAudio.swift; sourceTree = "<group>"; };
 		96E1BB4B1EE9F44C00F4966D /* SoundsPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundsPlayer.swift; sourceTree = "<group>"; };
+		96E1BB691EEA253300F4966D /* Light.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Light.swift; sourceTree = "<group>"; };
 		A4C385D41EEA070000AA57EE /* EndScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndScene.swift; sourceTree = "<group>"; };
 		A4C385D61EEA071800AA57EE /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		A4D23A1F1EEA0F440010F6B2 /* FlipperUp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = FlipperUp.wav; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				7AEE98B11EE89A400054F624 /* Arrows.swift */,
 				7AEE98B61EE8AAA80054F624 /* Bumper.swift */,
 				96E1BB391EE9E81000F4966D /* BumperB.swift */,
+				96E1BB691EEA253300F4966D /* Light.swift */,
 			);
 			name = Nodes;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				7AEE98B71EE8AAA80054F624 /* Bumper.swift in Sources */,
 				7AEE98B01EE889650054F624 /* UIAnimation.swift in Sources */,
 				96E1BB4C1EE9F44C00F4966D /* SoundsPlayer.swift in Sources */,
+				96E1BB6A1EEA253300F4966D /* Light.swift in Sources */,
 				7AEE98AE1EE872370054F624 /* Ball.swift in Sources */,
 				96E1BB3A1EE9E81000F4966D /* BumperB.swift in Sources */,
 				963F256D1EE5A73A00D31540 /* PhysicsCategory.swift in Sources */,
