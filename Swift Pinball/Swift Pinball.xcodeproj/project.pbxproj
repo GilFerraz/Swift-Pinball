@@ -25,6 +25,10 @@
 		963F256D1EE5A73A00D31540 /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F256C1EE5A73A00D31540 /* PhysicsCategory.swift */; };
 		963F25711EE5FCB700D31540 /* GameScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F25701EE5FCB700D31540 /* GameScore.swift */; };
 		963F25731EE60A2B00D31540 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F25721EE60A2B00D31540 /* Angle.swift */; };
+		96BBC6731EEA91E400340AE6 /* BackgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 96BBC6721EEA91E400340AE6 /* BackgroundMusic.mp3 */; };
+		96BBC6751EEA946B00340AE6 /* CoinIn2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BBC6741EEA946B00340AE6 /* CoinIn2.wav */; };
+		96BBC6771EEA953E00340AE6 /* Target2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BBC6761EEA953E00340AE6 /* Target2.wav */; };
+		96BBC6791EEA96FD00340AE6 /* GameOver.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 96BBC6781EEA96FD00340AE6 /* GameOver.mp3 */; };
 		96C4EEC61EE705ED001EC180 /* Flipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C4EEC51EE705ED001EC180 /* Flipper.swift */; };
 		96E1BB381EE855A800F4966D /* Collision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E1BB371EE855A800F4966D /* Collision.swift */; };
 		96E1BB3A1EE9E81000F4966D /* BumperB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E1BB391EE9E81000F4966D /* BumperB.swift */; };
@@ -83,6 +87,10 @@
 		963F256C1EE5A73A00D31540 /* PhysicsCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
 		963F25701EE5FCB700D31540 /* GameScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScore.swift; sourceTree = "<group>"; };
 		963F25721EE60A2B00D31540 /* Angle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
+		96BBC6721EEA91E400340AE6 /* BackgroundMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = BackgroundMusic.mp3; sourceTree = "<group>"; };
+		96BBC6741EEA946B00340AE6 /* CoinIn2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CoinIn2.wav; sourceTree = "<group>"; };
+		96BBC6761EEA953E00340AE6 /* Target2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Target2.wav; sourceTree = "<group>"; };
+		96BBC6781EEA96FD00340AE6 /* GameOver.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = GameOver.mp3; sourceTree = "<group>"; };
 		96C4EEC51EE705ED001EC180 /* Flipper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flipper.swift; sourceTree = "<group>"; };
 		96E1BB371EE855A800F4966D /* Collision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collision.swift; sourceTree = "<group>"; };
 		96E1BB391EE9E81000F4966D /* BumperB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BumperB.swift; sourceTree = "<group>"; };
@@ -239,11 +247,15 @@
 		96E1BB411EE9F39300F4966D /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				96BBC6721EEA91E400340AE6 /* BackgroundMusic.mp3 */,
 				A4D23A1F1EEA0F440010F6B2 /* FlipperUp.wav */,
 				A4D23A201EEA0F440010F6B2 /* Gate4.wav */,
 				A4D23A211EEA0F440010F6B2 /* RollyingMaybe.wav */,
 				A4D23A251EEA0F9F0010F6B2 /* BallCollision2.wav */,
 				A4D23A271EEA13880010F6B2 /* Bumper.mp3 */,
+				96BBC6741EEA946B00340AE6 /* CoinIn2.wav */,
+				96BBC6761EEA953E00340AE6 /* Target2.wav */,
+				96BBC6781EEA96FD00340AE6 /* GameOver.mp3 */,
 			);
 			name = Sounds;
 			sourceTree = "<group>";
@@ -357,12 +369,16 @@
 			files = (
 				A4D23A281EEA13880010F6B2 /* Bumper.mp3 in Resources */,
 				A4D23A231EEA0F450010F6B2 /* Gate4.wav in Resources */,
+				96BBC6791EEA96FD00340AE6 /* GameOver.mp3 in Resources */,
 				A4D23A221EEA0F450010F6B2 /* FlipperUp.wav in Resources */,
 				963F25441EE5A5A900D31540 /* Main.storyboard in Resources */,
 				963F25461EE5A5A900D31540 /* Assets.xcassets in Resources */,
+				96BBC6731EEA91E400340AE6 /* BackgroundMusic.mp3 in Resources */,
 				963F25491EE5A5A900D31540 /* LaunchScreen.storyboard in Resources */,
+				96BBC6771EEA953E00340AE6 /* Target2.wav in Resources */,
 				A4D23A261EEA0F9F0010F6B2 /* BallCollision2.wav in Resources */,
 				963F253D1EE5A5A900D31540 /* Actions.sks in Resources */,
+				96BBC6751EEA946B00340AE6 /* CoinIn2.wav in Resources */,
 				7AEE98B41EE8A5B00054F624 /* GameScene.sks in Resources */,
 				A4D23A241EEA0F450010F6B2 /* RollyingMaybe.wav in Resources */,
 			);

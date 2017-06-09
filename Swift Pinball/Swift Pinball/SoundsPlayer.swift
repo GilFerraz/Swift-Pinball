@@ -11,6 +11,10 @@ import SpriteKit;
 
 class SoundsPlayer
 {
+    //==============================================================
+    // Private Varaibles
+    //==============================================================
+    
     private var scene: SKScene;
     
     private var ballCollision: SKAudioNode;
@@ -19,9 +23,13 @@ class SoundsPlayer
     private var flipperUp: SKAudioNode;
     private var gate: SKAudioNode;
     private var rollyingMaybe: SKAudioNode;
-    //private var slingShots: SKAudioNode;
+    private var gameOver: SKAudioNode;
     
     private let playAction = SKAction.play();
+    
+    //==============================================================
+    // Initializer
+    //==============================================================
     
     init(scene: SKScene)
     {
@@ -29,11 +37,11 @@ class SoundsPlayer
         
         ballCollision = SKAudioNode(fileNamed: "BallCollision2.wav");
         ballRelease = SKAudioNode(fileNamed: "BallRelease4.caf");
-        bumper = SKAudioNode(fileNamed: "Bumper.mp3");
+        bumper = SKAudioNode(fileNamed: "Target2.wav");
         flipperUp = SKAudioNode(fileNamed: "FlipperUp.wav");
         gate = SKAudioNode(fileNamed: "Gate4.wav");
         rollyingMaybe = SKAudioNode(fileNamed: "RollyingMaybe.caf");
-        //slingShots = SKAudioNode(fileNamed: "SlingShots.caf");
+        gameOver = SKAudioNode(fileNamed: "GameOver.mp3");
         
         InitializeAudioNode(audioNode: ballCollision);
         InitializeAudioNode(audioNode: ballRelease);
@@ -41,8 +49,12 @@ class SoundsPlayer
         InitializeAudioNode(audioNode: flipperUp);
         InitializeAudioNode(audioNode: gate);
         InitializeAudioNode(audioNode: rollyingMaybe);
-        //InitializeAudioNode(audioNode: slingShots);
+        InitializeAudioNode(audioNode: gameOver);
     }
+    
+    //==============================================================
+    // Public Functions
+    //==============================================================
     
     public func PlayBallCollision()
     {
@@ -69,6 +81,16 @@ class SoundsPlayer
         bumper.run(SKAction.changeVolume(to: 0.7, duration: 0.0));
         PlaySoundEffect(audioNode: bumper);
     }
+    
+    public func PlayGameOver()
+    {
+        gameOver.run(SKAction.changeVolume(to: 0.7, duration: 0.0));
+        PlaySoundEffect(audioNode: gameOver);
+    }
+    
+    //==============================================================
+    // Private Functions
+    //==============================================================
     
     private func InitializeAudioNode(audioNode: SKAudioNode)
     {

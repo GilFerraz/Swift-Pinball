@@ -10,10 +10,11 @@ import Foundation
 
 class GameScore
 {
+    // Singleton
+    static let instance = GameScore(lives: 3);
+    
     var Lives : Int;
     var Score : Int;
-    
-    static let instance=GameScore(lives: 3)
     
     var HasLives: Bool
     {
@@ -23,11 +24,19 @@ class GameScore
         }
     }
     
+    //==============================================================
+    // Initializer
+    //==============================================================
+    
     init(lives: Int)
     {
         Lives = lives;
         Score = 0;
     }
+    
+    //==============================================================
+    // Public Functions
+    //==============================================================
     
     public func AddScore(scoreToAdd: Int)
     {

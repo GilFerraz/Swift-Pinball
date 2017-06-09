@@ -10,49 +10,60 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-class EndScene:SKScene{ 
-    // Scene Transition Stuff
-    override func didMove(to view: SKView)
+class EndScene:SKScene
+{
+    //==============================================================
+    // Public Override Functions
+    //==============================================================
+    
+    override public func didMove(to view: SKView)
     {
-        backgroundColor=SKColor.black
-        DrawGameOverScreen()
+        backgroundColor = SKColor.black;
+        DrawGameOverScreen();
     }
     
-    override func sceneDidLoad()
+    override public func sceneDidLoad()
     {
-        print(GameScore.instance.Score)
+        print(GameScore.instance.Score);
     }
-    //Auxiliary Functions
-    func DrawGameOverScreen()
+    
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {        
+        let newScene = MenuScene(size:self.size);
+        newScene.scaleMode = scaleMode;
+        
+        let transition=SKTransition.doorsOpenHorizontal(withDuration: 1);
+        self.view?.presentScene(newScene,transition:transition);
+    }
+    
+    //==============================================================
+    // Private Functions
+    //==============================================================
+    
+    private func DrawGameOverScreen()
     {
         let gameOverLabel=SKLabelNode(text:"Game Over")
-        gameOverLabel.fontName = "Copperplate Bold";
-        gameOverLabel.fontColor=SKColor.white
-        gameOverLabel.fontSize=70
-        gameOverLabel.position=CGPoint(x:self.frame.size.width/2,y:self.frame.size.height/2)
-        self.addChild(gameOverLabel)
+        SetFontSettings(label: gameOverLabel, fontColor: SKColor.white, fontSize: 70);
+        gameOverLabel.position=CGPoint(x:self.frame.size.width/2, y:self.frame.size.height/2);
         
         let scoreDisplayLabel=SKLabelNode(text:"Score: \(GameScore.instance.Score)")
-        scoreDisplayLabel.fontName = "Copperplate Bold";
-        scoreDisplayLabel.fontColor=SKColor.white
-        scoreDisplayLabel.fontSize=40
+        SetFontSettings(label: scoreDisplayLabel, fontColor: SKColor.white, fontSize: 40);
         scoreDisplayLabel.position=CGPoint(x:self.frame.size.width/2,
-                                           y:(self.frame.size.height/2) - scoreDisplayLabel.fontSize)
-        self.addChild(scoreDisplayLabel)
+                                           y:(self.frame.size.height/2) - scoreDisplayLabel.fontSize);
         
         let tipLabel=SKLabelNode(text:"Tap to Retry")
-        tipLabel.fontName = "Copperplate Bold";
-        tipLabel.fontColor=SKColor.white
-        tipLabel.fontSize=40
-        tipLabel.position=CGPoint(x:self.frame.size.width/2,y:tipLabel.fontSize)
-        self.addChild(tipLabel)
+        SetFontSettings(label: tipLabel, fontColor: SKColor.white, fontSize: 40);
+        tipLabel.position=CGPoint(x:self.frame.size.width/2,y:tipLabel.fontSize);
+        
+        self.addChild(gameOverLabel);
+        self.addChild(scoreDisplayLabel);
+        self.addChild(tipLabel);
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    private func SetFontSettings(label: SKLabelNode, fontColor: SKColor, fontSize: Int)
     {
-        let newScene=MenuScene(size:self.size)
-        newScene.scaleMode=scaleMode
-        let transition=SKTransition.doorsOpenHorizontal(withDuration: 1)
-        self.view?.presentScene(newScene,transition:transition)
+        label.fontName = "Copperplate Bold";
+        label.fontColor = fontColor;
+        label.fontSize = CGFloat(fontSize);
     }
 }

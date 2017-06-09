@@ -200,6 +200,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             // Activates the bumper's collision action;
             let bumper: Bumper = Collision.GetNode(contact: contact);
             bumper.Collided();
+            
+            // Plays the bumper collision sound.
             soundsPlayer?.PlayBumper();
             
             // Updates the game score.
@@ -239,8 +241,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     private func InitializeAudio()
     {
         // Background music.
-        //musicPlayer = MusicPlayer(scene: self, fileNamed: "BackgroundMusic.mp3");
-        //musicPlayer!.Play();
+        musicPlayer = MusicPlayer(scene: self, fileNamed: "BackgroundMusic.mp3");
+        musicPlayer!.Play();
         
         soundsPlayer = SoundsPlayer(scene: self);
     }
@@ -303,7 +305,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.scoreLabel = self.childNode(withName: "Score Label") as? SKLabelNode;
         self.livesLable = self.childNode(withName: "Lives Label") as? SKLabelNode;
         
-        self.scoreLabel?.text = "Score: \(GameScore.instance.Score)";
+        self.livesLable?.text = "Lives: \(GameScore.instance.Lives)";
     }
     
     func Touch_TappedLeft()
@@ -341,10 +343,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     private func ChangeToGameOverScene()
     {
+        soundsPlayer!.PlayGameOver();
+        
         let lossScene = EndScene(size: self.size);
         lossScene.scaleMode=scaleMode;
         
-        let transition=SKTransition.doorsCloseHorizontal(withDuration: 1);
+        let transition = SKTransition.doorsCloseHorizontal(withDuration: 1);
         self.view?.presentScene(lossScene,transition:transition)
     }
 }
