@@ -286,6 +286,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         let bumper2B = childNode(withName: "Stage/Bumpers/Bumper 2B") as? BumperB;
         bumper2A!.Initialize(pointsToGive: 15);
         bumper2B!.Initialize(pointsToGive: 15);
+        
+        let light0 = childNode(withName: "Stage/Lights/Light0") as? Light;
+        let light1 = childNode(withName: "Stage/Lights/Light1") as? Light;
+        let light2 = childNode(withName: "Stage/Lights/Light2") as? Light;
+        let light3 = childNode(withName: "Stage/Lights/Light3") as? Light;
+        let light4 = childNode(withName: "Stage/Lights/Light4") as? Light;
+        let light5 = childNode(withName: "Stage/Lights/Light5") as? Light;
+        let light6 = childNode(withName: "Stage/Lights/Light6") as? Light;
+        let light7 = childNode(withName: "Stage/Lights/Light7") as? Light;
+        
+        light0?.Initialize();
+        light1?.Initialize();
+        light2?.Initialize();
+        light3?.Initialize();
+        light4?.Initialize();
+        light5?.Initialize();
+        light6?.Initialize();
+        light7?.Initialize();
     }
     
     /* Finds all UI scene nodes. */

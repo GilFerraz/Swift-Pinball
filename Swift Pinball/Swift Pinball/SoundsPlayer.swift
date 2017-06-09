@@ -66,6 +66,7 @@ class SoundsPlayer
     
     public func PlayBumper()
     {
+        bumper.run(SKAction.changeVolume(to: 0.7, duration: 0.0));
         PlaySoundEffect(audioNode: bumper);
     }
     
